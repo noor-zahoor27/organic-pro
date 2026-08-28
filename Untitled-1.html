@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organic Chemistry Pro Dark Portal 🧪</title>
+    <style>
+        :root {
+            --bg-main: #090d16;
+            --bg-card: #131b2e;
+            --bg-sidebar: #0f172a;
+            --primary-accent: #38bdf8;
+            --secondary-accent: #818cf8;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border-color: #1e293b;
+            --success: #10b981;
+            --danger: #ef4444;
+            --code-bg: #020617;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* INSTAGRAM-STYLE SIDEBAR NAVIGATION */
+        .side-nav {
+            width: 260px;
+            background-color: var(--bg-sidebar);
+            border-right: 1px solid var(--border-color);
+            padding: 24px 16px;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            height: 100vh;
+            box-sizing: border-box;
+            z-index: 100;
+        }
+
+        .side-nav .logo {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--primary-accent);
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0 10px;
+        }
+
+        .nav-links {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .nav-item {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            padding: 12px 16px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            width: 100%;
+            text-align: left;
+            transition: all 0.2s ease;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            color: var(--primary-accent);
+            background: rgba(56, 189, 248, 0.1);
+        }
+
+        /* MAIN WRAPPER & LAYOUT */
+        .main-wrapper {
+            margin-left: 260px;
+            flex: 1;
+            display: flex;
+            padding: 24px 30px;
+            gap: 24px;
+            max-width: 1600px;
+        }
+
+        .content-area {
+            flex: 3;
+            min-width: 0;
+        }
+
+        .right-sidebar {
+            flex: 1.2;
+            background: var(--bg-card);
+            padding: 20px;
+            border-radius: 14px;
+            border: 1px solid var(--border-color);
+            height: calc(100vh - 48px);
+            position: sticky;
+            top: 24px;
+            overflow-y: auto;
+        }
+
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: fadeIn 0.3s ease; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card {
+            background: var(--bg-card);
+            padding: 28px;
+            border-radius: 14px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 24px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+
+        h2 { color: var(--primary-accent); font-size: 1.4rem; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; margin-top: 0; }
+        h3 { color: var(--secondary-accent); font-size: 1.15rem; margin-top: 20px; }
+
+        .concept-box {
+            background: #0b1120;
+            border-left: 4px solid var(--primary-accent);
+            padding: 16px;
+            margin: 14px 0;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            border-left-width: 4px;
+        }
+
+        /* TABLES */
+        .table-responsive { overflow-x: auto; margin: 16px 0; border-radius: 8px; border: 1px solid var(--border-color); }
+        table { width: 100%; border-collapse: collapse; font-size: 0.9rem; text-align: left; }
+        th { background: #0f172a; color: var(--primary-accent); padding: 12px; font-weight: 700; border-bottom: 1px solid var(--border-color); }
+        td { padding: 12px; border-bottom: 1px solid var(--border-color); color: #cbd5e1; }
+        tr:nth-child(even) { background-color: rgba(255, 255, 255, 0.02); }
+
+        .formula {
+            font-family: 'JetBrains Mono', monospace;
+            background: rgba(56, 189, 248, 0.15);
+            color: var(--primary-accent);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        .visual-struct {
+            font-family: 'Consolas', monospace;
+            white-space: pre;
+            background: var(--code-bg);
+            color: #4ade80;
+            padding: 10px;
+            border-radius: 6px;
+            display: inline-block;
+            font-weight: bold;
+            border: 1px solid var(--border-color);
+        }
+
+        /* QUIZ & INTERACTIVE STYLES */
+        .mcq-card {
+            background: #0b1120;
+            border: 1px solid var(--border-color);
+            padding: 18px;
+            margin-bottom: 16px;
+            border-radius: 10px;
+        }
+
+        .mcq-opt {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 10px 14px;
+            margin: 8px 0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.2s;
+            color: var(--text-main);
+        }
+
+        .mcq-opt:hover { border-color: var(--primary-accent); background: rgba(56, 189, 248, 0.05); }
+        .mcq-opt.selected { border-color: var(--primary-accent); background: rgba(56, 189, 248, 0.2); }
+
+        .submit-btn {
+            background: linear-gradient(135deg, var(--primary-accent), var(--secondary-accent));
+            color: #000;
+            border: none;
+            padding: 14px 28px;
+            font-size: 1rem;
+            font-weight: 800;
+            border-radius: 10px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 15px;
+        }
+
+        .result-box {
+            display: none;
+            background: #064e3b;
+            border: 1px solid var(--success);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .qa-card {
+            background: #0b1120;
+            border-left: 3px solid var(--secondary-accent);
+            padding: 12px;
+            margin-bottom: 12px;
+            border-radius: 6px;
+        }
+        .qa-card .q { font-weight: bold; color: var(--primary-accent); font-size: 0.88rem; margin: 0 0 4px 0; }
+        .qa-card .a { color: var(--text-muted); font-size: 0.84rem; margin: 0; }
+    </style>
+</head>
+<body>
+
+<!-- INSTAGRAM-STYLE SIDEBAR NAVIGATION -->
+<aside class="side-nav">
+    <div class="logo">
+        🧪 OrganicPro
+    </div>
+    <ul class="nav-links">
+        <li><button class="nav-item active" onclick="switchTab('full-guide', this)">📚 A-Z Master Guide</button></li>
+        <li><button class="nav-item" onclick="switchTab('hydrocarbons', this)">📊 Hydrocarbons (C1-C10)</button></li>
+        <li><button class="nav-item" onclick="switchTab('functional-families', this)">⚛️ Functional Families (C1-C10)</button></li>
+        <li><button class="nav-item" onclick="switchTab('iupac', this)">📑 IUPAC Rules</button></li>
+        <li><button class="nav-item" onclick="switchTab('viewer3d', this)">🧊 3D Visualizer</button></li>
+        <li><button class="nav-item" onclick="switchTab('quiz', this)">🎯 Test & Predictor</button></li>
+    </ul>
+</aside>
+
+<!-- MAIN WRAPPER -->
+<div class="main-wrapper">
+
+    <div class="content-area">
+
+        <!-- TAB 1: FULL A-Z GUIDE -->
+        <div id="full-guide" class="tab-content active">
+            <div class="card">
+                <h2>1. Fundamentals of Organic Chemistry</h2>
+                <p>Organic Chemistry is the study of <b>carbon and hydrogen compounds (hydrocarbons)</b> and their derivatives.</p>
+                
+                <div class="concept-box">
+                    <strong>Unique Properties of Carbon:</strong>
+                    <ul>
+                        <li><b>Tetravalency:</b> Carbon has 4 valence electrons and forms 4 covalent bonds to achieve stability.</li>
+                        <li><b>Catenation:</b> Carbon atoms have the unique ability to bond with one another to form long, stable chains and rings.</li>
+                    </ul>
+                </div>
+
+                <h2>2. Overview of Functional Families</h2>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr><th>Family</th><th>Group Symbol</th><th>General Formula</th><th>IUPAC Suffix</th><th>Example Compound</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Alkanes</td><td>C–C (Single)</td><td>CₙH₂ₙ₊₂</td><td>-ane</td><td>Methane (CH₄)</td></tr>
+                            <tr><td>Alkenes</td><td>C=C (Double)</td><td>CₙH₂ₙ</td><td>-ene</td><td>Ethene (C₂H₄)</td></tr>
+                            <tr><td>Alkynes</td><td>C≡C (Triple)</td><td>CₙH₂ₙ₋₂</td><td>-yne</td><td>Ethyne (C₂H₂)</td></tr>
+                            <tr><td>Alkyl Radicals</td><td>R–</td><td>CₙH₂ₙ₊₁–</td><td>-yl</td><td>Methyl (CH₃–)</td></tr>
+                            <tr><td>Alcohols</td><td>-OH</td><td>R-OH</td><td>-ol</td><td>Ethanol (C₂H₅OH)</td></tr>
+                            <tr><td>Aldehydes</td><td>-CHO</td><td>R-CHO</td><td>-al</td><td>Ethanal (CH₃CHO)</td></tr>
+                            <tr><td>Ketones</td><td>>C=O</td><td>R-CO-R'</td><td>-one</td><td>Propanone (CH₃COCH₃)</td></tr>
+                            <tr><td>Carboxylic Acids</td><td>-COOH</td><td>R-COOH</td><td>-oic acid</td><td>Ethanoic Acid (CH₃COOH)</td></tr>
+                            <tr><td>Esters</td><td>-COO-</td><td>R-COOR'</td><td>-oate</td><td>Methyl Ethanoate (CH₃COOCH₃)</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h2>3. Structural Isomerism</h2>
+                <p>Compounds sharing the <b>same molecular formula</b> but possessing <b>different structural arrangements</b> are called isomers.</p>
+                <div class="concept-box">
+                    <b>Example: Butane (C₄H₁₀) Isomers</b><br><br>
+                    <span class="visual-struct">n-Butane:  H₃C — CH₂ — CH₂ — CH₃
+
+Isobutane:  H₃C — CH — CH₃
+                  |
+                 CH₃</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 2: HYDROCARBONS COMPLETE C1-C10 -->
+        <div id="hydrocarbons" class="tab-content">
+            <!-- ALKANES TABLE -->
+            <div class="card">
+                <h2>1. Alkanes Family (C1 to C10) — Single Bonds</h2>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr><th>C-Atoms</th><th>Name</th><th>Molecular</th><th>Condensed Formula</th><th>Textbook Structural Drawing</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>1</td><td>Methane</td><td><span class="formula">CH₄</span></td><td>CH₄</td><td><span class="visual-struct">  H
+  |
+H-C-H
+  |
+  H</span></td></tr>
+                            <tr><td>2</td><td>Ethane</td><td><span class="formula">C₂H₆</span></td><td>CH₃–CH₃</td><td><span class="visual-struct">  H   H
+  |   |
+H-C---C-H
+  |   |
+  H   H</span></td></tr>
+                            <tr><td>3</td><td>Propane</td><td><span class="formula">C₃H₈</span></td><td>CH₃–CH₂–CH₃</td><td><span class="visual-struct">H₃C – CH₂ – CH₃</span></td></tr>
+                            <tr><td>4</td><td>Butane</td><td><span class="formula">C₄H₁₀</span></td><td>CH₃–(CH₂)₂–CH₃</td><td><span class="visual-struct">H₃C – (CH₂)₂ – CH₃</span></td></tr>
+                            <tr><td>5</td><td>Pentane</td><td><span class="formula">C₅H₁₂</span></td><td>CH₃–(CH₂)₃–CH₃</td><td><span class="visual-struct">H₃C – (CH₂)₃ – CH₃</span></td></tr>
+                            <tr><td>6</td><td>Hexane</td><td><span class="formula">C₆H₁₄</span></td><td>CH₃–(CH₂)₄–CH₃</td><td><span class="visual-struct">H₃C – (CH₂)₄ – CH₃</span></td></tr>
+                            <tr><td>7</td><td>Heptane</td><td><span class="formula">C₇H₁₆</span></td><td>CH₃–(CH₂)₅–CH₃</td><td><span class="visual-struct">H₃C – (CH₂)₅ – CH₃</span></td></tr>
+                            <tr><td>8</td><td>Octane</td><td><span class="formula">C∰H₁∰</span></td><td>CH₃–(CH₂)₆–CH₃</td><td><span class="visual-struct">H₃C – (CH₂)₆ – CH₃</span></td></tr>
+                            <tr><td>9</td><td>Nonane</td><td><span class="formula">C₉H₂₀</span></td><td>CH₃–(CH₂)₇–CH₃</td><td><span class="visual-struct">H₃C – (CH₂)₇ – CH₃</span></td></tr>
+                            <tr><td>10</td><td>Decane</td><td><span class="formula">C₁₀H₂₂</span></td><td>CH₃–(CH₂)∰–CH₃</td><td><span class="visual-struct">H₃C – (CH₂)∰ – CH₃</span></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- ALKENES TABLE -->
+            <div class="card">
+                <h2>2. Alkenes Family (C2 to C10) — Double Bonds (C=C)</h2>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr><th>C-Atoms</th><th>Name</th><th>Molecular</th><th>Condensed Formula</th><th>Textbook Structural Drawing</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>2</td><td>Ethene</td><td><span class="formula">C₂H₄</span></td><td>CH₂=CH₂</td><td><span class="visual-struct"> H     H
+  \   /
+   C=C
+  /   \
+ H     H</span></td></tr>
+                            <tr><td>3</td><td>Propene</td><td><span class="formula">C₃H₆</span></td><td>CH₃–CH=CH₂</td><td><span class="visual-struct">H₃C – CH = CH₂</span></td></tr>
+                            <tr><td>4</td><td>1-Butene</td><td><span class="formula">C₄H₈</span></td><td>CH₃–CH₂–CH=CH₂</td><td><span class="visual-struct">H₃C – CH₂ – CH = CH₂</span></td></tr>
+                            <tr><td>5</td><td>1-Pentene</td><td><span class="formula">C₅H₁₀</span></td><td>CH₃–(CH₂)₂–CH=CH₂</td><td><span class="visual-struct">H₃C – (CH₂)₂ – CH = CH₂</span></td></tr>
+                            <tr><td>6</td><td>1-Hexene</td><td><span class="formula">C₆H₁₂</span></td><td>CH₃–(CH₂)₃–CH=CH₂</td><td><span class="visual-struct">H₃C – (CH₂)₃ – CH = CH₂</span></td></tr>
+                            <tr><td>7</td><td>1-Heptene</td><td><span class="formula">C₇H₁₄</span></td><td>CH₃–(CH₂)₄–CH=CH₂</td><td><span class="visual-struct">H₃C – (CH₂)₄ – CH = CH₂</span></td></tr>
+                            <tr><td>8</td><td>1-Octene</td><td><span class="formula">C∰H₁₆</span></td><td>CH₃–(CH₂)₅–CH=CH₂</td><td><span class="visual-struct">H₃C – (CH₂)₅ – CH = CH₂</span></td></tr>
+                            <tr><td>9</td><td>1-Nonene</td><td><span class="formula">C₉H₁∰</span></td><td>CH₃–(CH₂)₆–CH=CH₂</td><td><span class="visual-struct">H₃C – (CH₂)₆ – CH = CH₂</span></td></tr>
+                            <tr><td>10</td><td>1-Decene</td><td><span class="formula">C₁₀H₂₀</span></td><td>CH₃–(CH₂)₇–CH=CH₂</td><td><span class="visual-struct">H₃C – (CH₂)₇ – CH = CH₂</span></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- ALKYL RADICALS TABLE -->
+            <div class="card">
+                <h2>3. Alkyl Radicals (C1 to C10) — (C<sub>n</sub>H<sub>2n+1</sub>–)</h2>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr><th>C-Atoms</th><th>Radical Name</th><th>Formula</th><th>Condensed Formula</th><th>Textbook Structural Representation</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>1</td><td>Methyl</td><td><span class="formula">CH₃–</span></td><td>CH₃–</td><td><span class="visual-struct">H₃C –</span></td></tr>
+                            <tr><td>2</td><td>Ethyl</td><td><span class="formula">C₂H₅–</span></td><td>CH₃–CH₂–</td><td><span class="visual-struct">H₃C – CH₂ –</span></td></tr>
+                            <tr><td>3</td><td>Propyl</td><td><span class="formula">C₃H₇–</span></td><td>CH₃–(CH₂)₂–</td><td><span class="visual-struct">H₃C – CH₂ – CH₂ –</span></td></tr>
+                            <tr><td>4</td><td>Butyl</td><td><span class="formula">C₄H₉–</span></td><td>CH₃–(CH₂)₃–</td><td><span class="visual-struct">H₃C – (CH₂)₂ – CH₂ –</span></td></tr>
+                            <tr><td>5</td><td>Pentyl</td><td><span class="formula">C₅H₁₁–</span></td><td>CH₃–(CH₂)₄–</td><td><span class="visual-struct">H₃C – (CH₂)₃ – CH₂ –</span></td></tr>
+                            <tr><td>6</td><td>Hexyl</td><td><span class="formula">C₆H₁₃–</span></td><td>CH₃–(CH₂)₅–</td><td><span class="visual-struct">H₃C – (CH₂)₄ – CH₂ –</span></td></tr>
+                            <tr><td>7</td><td>Heptyl</td><td><span class="formula">C₇H₁₅–</span></td><td>CH₃–(CH₂)₆–</td><td><span class="visual-struct">H₃C – (CH₂)₅ – CH₂ –</span></td></tr>
+                            <tr><td>8</td><td>Octyl</td><td><span class="formula">C∰H₁₇–</span></td><td>CH₃–(CH₂)₇–</td><td><span class="visual-struct">H₃C – (CH₂)₆ – CH₂ –</span></td></tr>
+                            <tr><td>9</td><td>Nonyl</td><td><span class="formula">C₉H₁₉–</span></td><td>CH₃–(CH₂)∰–</td><td><span class="visual-struct">H₃C – (CH₂)₇ – CH₂ –</span></td></tr>
+                            <tr><td>10</td><td>Decyl</td><td><span class="formula">C₁₀H₂₁–</span></td><td>CH₃–(CH₂)₉–</td><td><span class="visual-struct">H₃C – (CH₂)∰ – CH₂ –</span></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 3: FUNCTIONAL FAMILIES C1 TO C10 -->
+        <div id="functional-families" class="tab-content">
+            <div class="card">
+                <h2>Alcohols & Carboxylic Acids (C1 to C10 Complete)</h2>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr><th>Carbons</th><th>Alcohol IUPAC</th><th>Alcohol Formula</th><th>Carboxylic Acid IUPAC</th><th>Acid Formula</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>1</td><td>Methanol</td><td><span class="formula">CH₃OH</span></td><td>Methanoic Acid</td><td><span class="formula">HCOOH</span></td></tr>
+                            <tr><td>2</td><td>Ethanol</td><td><span class="formula">C₂H₅OH</span></td><td>Ethanoic Acid</td><td><span class="formula">CH₃COOH</span></td></tr>
+                            <tr><td>3</td><td>Propanol</td><td><span class="formula">C₃H₇OH</span></td><td>Propanoic Acid</td><td><span class="formula">C₂H₅COOH</span></td></tr>
+                            <tr><td>4</td><td>Butanol</td><td><span class="formula">C₄H₉OH</span></td><td>Butanoic Acid</td><td><span class="formula">C₃H₇COOH</span></td></tr>
+                            <tr><td>5</td><td>Pentanol</td><td><span class="formula">C₅H₁₁OH</span></td><td>Pentanoic Acid</td><td><span class="formula">C₄H₉COOH</span></td></tr>
+                            <tr><td>6</td><td>Hexanol</td><td><span class="formula">C₆H₁₃OH</span></td><td>Hexanoic Acid</td><td><span class="formula">C₅H₁₁COOH</span></td></tr>
+                            <tr><td>7</td><td>Heptanol</td><td><span class="formula">C₇H₁₅OH</span></td><td>Heptanoic Acid</td><td><span class="formula">C₆H₁₃COOH</span></td></tr>
+                            <tr><td>8</td><td>Octanol</td><td><span class="formula">C∰H₁₇OH</span></td><td>Octanoic Acid</td><td><span class="formula">C₇H₁₅COOH</span></td></tr>
+                            <tr><td>9</td><td>Nonanol</td><td><span class="formula">C₉H₁₉OH</span></td><td>Nonanoic Acid</td><td><span class="formula">C∰H₁₇COOH</span></td></tr>
+                            <tr><td>10</td><td>Decanol</td><td><span class="formula">C₁₀H₂₁OH</span></td><td>Decanoic Acid</td><td><span class="formula">C₉H₁₉COOH</span></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 4: IUPAC RULES -->
+        <div id="iupac" class="tab-content">
+            <div class="card">
+                <h2>IUPAC Naming Master Rules</h2>
+                <div class="concept-box">
+                    <b>Rule 1: Find the Longest Carbon Chain</b>
+                    <p>Identify and select the longest continuous carbon chain to determine the root name (1=Meth, 2=Eth, 3=Prop, 4=But, 5=Pent, 6=Hex, 7=Hept, 8=Oct, 9=Non, 10=Dec).</p>
+                </div>
+                <div class="concept-box">
+                    <b>Rule 2: Identify Carbon-Carbon Bonds</b>
+                    <p>Add <b>-ane</b> for single bonds, <b>-ene</b> for double bonds, and <b>-yne</b> for triple bonds.</p>
+                </div>
+                <div class="concept-box">
+                    <b>Rule 3: Numbering Priority</b>
+                    <p>Number the carbon chain starting from the end closest to the functional group or double/triple bond.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 5: 3D VIEWER -->
+        <div id="viewer3d" class="tab-content">
+            <div class="card">
+                <h2>Interactive 3D Molecule Visualizer</h2>
+                <iframe src="https://embed.molview.org/v1/?mode=balls&cid=6324" width="100%" height="450px" frameborder="0"></iframe>
+            </div>
+        </div>
+
+        <!-- TAB 6: QUIZ & PREDICTOR -->
+        <div id="quiz" class="tab-content">
+            <div class="card">
+                <h2>Interactive 20-Question Quiz & Score Predictor 🎯</h2>
+                <p>Select your answers below and click <b>Submit Quiz</b> to receive your automated performance evaluation:</p>
+                
+                <div id="quizContainer"></div>
+
+                <button class="submit-btn" onclick="calculateScore()">Submit Quiz & Predict Score</button>
+
+                <div id="resultBox" class="result-box">
+                    <h2 id="scoreTitle" style="border:none; margin:0; color:var(--success);">Evaluation Report</h2>
+                    <p id="scoreText" style="font-size: 1.2rem; font-weight: bold; margin: 10px 0;"></p>
+                    <p id="feedbackText" style="color:#cbd5e1; margin: 0;"></p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- RIGHT SIDEBAR: REVISION Q/A -->
+    <div class="right-sidebar">
+        <h3 style="margin-top:0;">📌 20 Short Revision Q&As</h3>
+        <div id="qaContainer"></div>
+    </div>
+
+</div>
+
+<script>
+    // 20 SHORT REVISION QUESTIONS IN ENGLISH
+    const shortQA = [
+        { q: "1. What is Organic Chemistry?", a: "The study of carbon-hydrogen compounds (hydrocarbons) and their derivatives." },
+        { q: "2. Define Hydrocarbons.", a: "Organic compounds containing only carbon and hydrogen atoms." },
+        { q: "3. What is Tetravalency?", a: "The ability of a carbon atom to form 4 covalent bonds." },
+        { q: "4. Define Catenation.", a: "The self-linking property of carbon atoms to form long chains or rings." },
+        { q: "5. What is the General Formula of Alkanes?", a: "CₙH₂ₙ₊₂." },
+        { q: "6. What is the General Formula of Alkenes?", a: "CₙH₂ₙ." },
+        { q: "7. What is the General Formula of Alkynes?", a: "CₙH₂ₙ₋₂." },
+        { q: "8. How is an Alkyl Radical formed?", a: "By removing one hydrogen atom from an alkane (CₙH₂ₙ₊₁–)." },
+        { q: "9. Define Structural Isomerism.", a: "Compounds having the same molecular formula but different structural arrangements." },
+        { q: "10. What is a Homologous Series?", a: "A series of compounds where consecutive members differ by a -CH₂- group." },
+        { q: "11. Define Saturated Hydrocarbons.", a: "Hydrocarbons with single bonds between carbon atoms (Alkanes)." },
+        { q: "12. Define Unsaturated Hydrocarbons.", a: "Hydrocarbons containing double (C=C) or triple (C≡C) carbon-carbon bonds." },
+        { q: "13. What is a Functional Group?", a: "An atom or group of atoms responsible for the characteristic chemical properties of a compound." },
+        { q: "14. Name the Functional Group of Alcohols.", a: "Hydroxyl group (-OH)." },
+        { q: "15. What is the formula of Carboxylic Acid group?", a: "Carboxyl group (-COOH)." },
+        { q: "16. Write the Aldehyde Functional Group.", a: "Formyl group (-CHO)." },
+        { q: "17. What is the Molecular Formula of Methane?", a: "CH₄." },
+        { q: "18. How many Carbon atoms are in Propane?", a: "3 Carbon atoms (C₃H₈)." },
+        { q: "19. How many structural isomers does Butane have?", a: "2 isomers (n-Butane & Isobutane)." },
+        { q: "20. What is a 10-Carbon Alkane called?", a: "Decane (C₁₀H₂₂)." }
+    ];
+
+    // 20 COMPLETE MCQS DATA IN ENGLISH
+    const quizMCQs = [
+        { q: "1. What is the valency of Carbon?", opts: ["2", "3", "4", "6"], ans: 2 },
+        { q: "2. What is the General Formula of Alkanes?", opts: ["CₙH₂ₙ", "CₙH₂ₙ₊₂", "CₙH₂ₙ₋₂", "CₙH₂ₙ₊₁"], ans: 1 },
+        { q: "3. Which bond is present between Carbon atoms in Alkenes?", opts: ["Single Bond", "Double Bond", "Triple Bond", "Ionic Bond"], ans: 1 },
+        { q: "4. What is the Molecular Formula of Ethyne?", opts: ["C₂H₆", "C₂H₄", "C₂H₂", "CH₄"], ans: 2 },
+        { q: "5. What is the formula of a Methyl Radical?", opts: ["CH₄", "CH₃–", "C₂H₅–", "CH₂"], ans: 1 },
+        { q: "6. How many isomers does Pentane (C₅H₁₂) have?", opts: ["2", "3", "4", "5"], ans: 1 },
+        { q: "7. What is the mass difference between consecutive homologous series members?", opts: ["12 amu", "14 amu", "16 amu", "18 amu"], ans: 1 },
+        { q: "8. The functional group '-OH' belongs to which family?", opts: ["Aldehyde", "Ketone", "Alcohol", "Ester"], ans: 2 },
+        { q: "9. To which family does C₁₀H₂₀ belong?", opts: ["Alkane", "Alkene", "Alkyne", "Alkyl"], ans: 1 },
+        { q: "10. How many carbon atoms are present in Propane?", opts: ["1", "2", "3", "4"], ans: 2 },
+        { q: "11. Which of the following is an Unsaturated Hydrocarbon?", opts: ["Alkane", "Alkene", "Alkyl Radical", "Paraffin"], ans: 1 },
+        { q: "12. What is the '-COOH' functional group named?", opts: ["Hydroxyl", "Carboxyl", "Formyl", "Carbonyl"], ans: 1 },
+        { q: "13. What is the IUPAC name for an 8-Carbon Alkane?", opts: ["Heptane", "Octane", "Nonane", "Decane"], ans: 1 },
+        { q: "14. Identify the compound: CH₃–CH₂–CH₃", opts: ["Ethane", "Propane", "Butane", "Pentane"], ans: 1 },
+        { q: "15. What is the General Formula of Ketones?", opts: ["R-OH", "R-CHO", "R-CO-R'", "R-COOH"], ans: 2 },
+        { q: "16. What is the Molecular Formula of Ethene?", opts: ["C₂H₂", "C₂H₄", "C₂H₆", "C₃H₆"], ans: 1 },
+        { q: "17. What is the formula of a Propyl Radical?", opts: ["C₃H₇–", "C₃H₈", "C₃H₅–", "CH₃–"], ans: 0 },
+        { q: "18. Compounds containing only single carbon-carbon bonds are termed:", opts: ["Saturated", "Unsaturated", "Aromatic", "Cyclic"], ans: 0 },
+        { q: "19. What is the Molecular Formula of Decane?", opts: ["C₁₀H₂₂", "C₁₀H₂₀", "C₁₀H₁∰", "C₁₀H₂₁"], ans: 0 },
+        { q: "20. What type of bond is present in 1-Butyne?", opts: ["Single Bond", "Double Bond", "Triple Bond", "Coordination Bond"], ans: 2 }
+    ];
+
+    let userAnswers = {};
+
+    function switchTab(tabId, element) {
+        document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+        document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+        document.getElementById(tabId).classList.add('active');
+        element.classList.add('active');
+    }
+
+    function renderQA() {
+        let container = document.getElementById('qaContainer');
+        container.innerHTML = '';
+        shortQA.forEach(item => {
+            container.innerHTML += `<div class="qa-card"><p class="q">${item.q}</p><p class="a">${item.a}</p></div>`;
+        });
+    }
+
+    function renderQuiz() {
+        let container = document.getElementById('quizContainer');
+        container.innerHTML = '';
+        quizMCQs.forEach((item, qIdx) => {
+            let html = `<div class="mcq-card"><div style="font-weight:bold; margin-bottom:10px; color:var(--primary-accent);">${item.q}</div>`;
+            item.opts.forEach((opt, oIdx) => {
+                html += `<div class="mcq-opt" id="opt_${qIdx}_${oIdx}" onclick="selectOption(${qIdx}, ${oIdx})">${String.fromCharCode(65+oIdx)}) ${opt}</div>`;
+            });
+            html += `</div>`;
+            container.innerHTML += html;
+        });
+    }
+
+    function selectOption(qIdx, oIdx) {
+        userAnswers[qIdx] = oIdx;
+        quizMCQs[qIdx].opts.forEach((_, i) => {
+            document.getElementById(`opt_${qIdx}_${i}`).classList.remove('selected');
+        });
+        document.getElementById(`opt_${qIdx}_${oIdx}`).classList.add('selected');
+    }
+
+    function calculateScore() {
+        let score = 0;
+        let total = quizMCQs.length;
+
+        quizMCQs.forEach((item, qIdx) => {
+            if(userAnswers[qIdx] === item.ans) score++;
+        });
+
+        let percentage = (score / total) * 100;
+        let resultBox = document.getElementById('resultBox');
+        
+        resultBox.style.display = 'block';
+        document.getElementById('scoreText').innerText = `Your Score: ${score} / ${total} (${percentage}%)`;
+
+        if(percentage >= 80) {
+            document.getElementById('feedbackText').innerText = "🔥 Outstanding performance! You have mastered Organic Chemistry fundamentals.";
+        } else if(percentage >= 50) {
+            document.getElementById('feedbackText').innerText = "👍 Good effort! Review the Hydrocarbons and Functional Families tabs to improve your score.";
+        } else {
+            document.getElementById('feedbackText').innerText = "📖 Revision needed. Go through the A-Z Master Guide and practice again.";
+        }
+
+        resultBox.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    window.onload = function() {
+        renderQA();
+        renderQuiz();
+    };
+</script>
+
+</body>
+</html>
